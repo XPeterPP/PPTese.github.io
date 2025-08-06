@@ -1,0 +1,83 @@
+ *{
+    margin: 0;
+    padding: 0;
+}
+
+a{
+    text-emphasis: none;
+}
+
+li{
+    list-style: none;
+}
+
+.header-wrap{
+    width: 100%;
+    height: 100px;
+    background-color: rgb(60,140, 255);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.header{
+    width: 1400px;
+    height: 100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img{
+    height: 50px;
+}
+
+.right{
+    display: flex;
+}
+
+.nav-item{
+    margin: 30px;
+    font-size: 20px;
+    color: #fff;
+}
+
+.news-bar {
+    width: 60%;
+    height: 300px;
+    background-color: rgba(72, 73, 75, 0.7); /* 使用 rgba 並降低透明度 */
+    border-bottom: 1px solid #00ffff;
+    margin:  120px auto 50px;;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.news-container {
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    overflow: hidden; /* 隱藏超出內容 */
+}
+
+.news-label {
+    font-weight: bold;
+    color: #e74c3c; /* 紅色強調 */
+    margin-right: 15px;
+    white-space: nowrap; /* 防止文字換行 */
+}
+
+.news-content {
+    display: flex;
+}
+
+.news-item {
+    margin-right: 40px;
+    white-space: nowrap;
+    color: #333;
+}
