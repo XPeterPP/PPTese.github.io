@@ -1,83 +1,177 @@
- *{
+/* 全局重置與基本設定 */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-a{
-    text-emphasis: none;
+a {
+    text-decoration: none;
 }
 
-li{
-    list-style: none;
-}
-
-.header-wrap{
-    width: 100%;
-    height: 100px;
-    background-color: rgb(60,140, 255);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 0;
-}
-
-.header{
-    width: 1400px;
-    height: 100px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo img{
-    height: 50px;
-}
-
-.right{
-    display: flex;
-}
-
-.nav-item{
-    margin: 30px;
-    font-size: 20px;
-    color: #fff;
-}
-
-.news-bar {
-    width: 60%;
-    height: 300px;
-    background-color: rgba(72, 73, 75, 0.7); /* 使用 rgba 並降低透明度 */
-    border-bottom: 1px solid #00ffff;
-    margin:  120px auto 50px;;
-    z-index: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.news-container {
-    width: 90%;
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    overflow: hidden; /* 隱藏超出內容 */
-}
-
-.news-label {
-    font-weight: bold;
-    color: #e74c3c; /* 紅色強調 */
-    margin-right: 15px;
-    white-space: nowrap; /* 防止文字換行 */
-}
-
-.news-content {
-    display: flex;
-}
-
-.news-item {
-    margin-right: 40px;
-    white-space: nowrap;
+body {
+    font-family: 'Microsoft JhengHei', Arial, sans-serif;
+    background-color: #f8f8f8;
     color: #333;
+    min-height: 100vh;
+    position: relative;
+    line-height: 1.6;
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+}
+
+/* 主容器 */
+.container {
+    max-width: 900px;
+    width: 90%;
+    position: absolute;
+        top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* 標題樣式 */
+.header {
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: #e74c3c;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.header::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, #e74c3c, #f39c12);
+    border-radius: 2px;
+}
+
+/* 內容區塊佈局 */
+.front-page-container {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    margin: 40px 0;
+}
+
+.content-block {
+    order: -1;
+    flex: 1;
+}
+
+.front-page {
+    flex: 0 0 45%;
+    position: relative;
+}   
+
+/* 圖片效果 */
+.front-page img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.front-page img:hover {
+    transform: scale(1.02);
+}
+
+/* 副標題樣式 */
+.subheader {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    padding-left: 15px;
+    border-left: 3px solid #e74c3c;
+    color: #555;
+    transition: all 0.3s ease;
+}
+
+.subheader:hover {
+    transform: translateX(5px);
+    color: #333;
+}
+
+/* 按鈕樣式 */
+.buttons {
+      display: flex;
+     gap: 20px;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: #e74c3c;
+    color: white;
+    border: 2px solid #e74c3c;
+}
+
+.btn-primary:hover {
+    background-color: #c0392b;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .container {
+    position: static;
+    transform: none;
+    margin: 20px auto;  /* 減少外邊距 */
+    padding: 20px;      /* 減少內距 */
+  }
+
+  .front-page-container {
+    flex-direction: column;
+    gap: 20px;          /* 減少間距 */
+  }
+
+  .front-page {
+    flex: 0 0 auto;
+    width: 100%;
+    order: -1;
+  }
+
+  .header {
+    font-size: 1.8rem;  /* 標題再縮小 */
+    margin-bottom: 15px;
+  }
+
+  .subheader {
+    font-size: 0.9rem;  /* 副標題縮小 */
+    padding-left: 8px;  /* 調整裝飾線位置 */
+    border-left-width: 2px; /* 裝飾線變細 */
+    margin-bottom: 6px; /* 減少行距 */
+  }
+
+  .buttons {
+    flex-direction: column; /* 按鈕垂直排列 */
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .btn {
+    padding: 10px 15px; /* 按鈕縮小 */
+    width: 100%;        /* 全寬按鈕 */
+  }
 }
