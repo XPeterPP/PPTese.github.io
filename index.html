@@ -3,164 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Sheets 資料展示</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-        }
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-        .loading {
-            text-align: center;
-            padding: 20px;
-            font-style: italic;
-            color: #666;
-        }
-        .error {
-            color: #dc3545;
-            text-align: center;
-            padding: 20px;
-        }
-    </style>
+    <title>PP羽球穿線</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="Image/logo.png">
 </head>
 <body>
-    <h1>Google Sheets 資料展示</h1>
-    <div id="data-container">
-        <p class="loading">正在載入資料...</p>
+    <div class="container">
+        <div class="header">羽球穿線</div>
+        
+        <!-- 新增的並排容器 -->
+        <div class="front-page-container">
+            <div class="front-page">
+                <img src="Image/string_image.jpg" alt="string_image">
+            </div>
+            <div class="content-block">
+                <div class="subheader">穿線服務 : 電腦穿線 / 空拍上機 / 拍釘更換</div>
+                <div class="subheader">穿線手法 : YY穿線法 / SZ穿線法</div>
+                <div class="subheader">服務地區 : 新竹 / 竹北</div>
+                <div class="buttons">
+                    <a href="price.html" class="btn btn-price">看看價格
+                    </a>
+                    <a href="https://line.me/ti/p/kuurTdUm7Z" class="btn btn-line" target="_blank">
+                        <img src="Image/Other_image/line_image.jpg" alt="LINE圖標">LINE聯絡
+                    </a>
+                    <a href="https://www.threads.com/@p.p0728" class="btn btn-threads" target="_blank">
+                        <img src="Image/Other_image/threads_image.jpg" alt="Threads圖標">追蹤Threads
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <script>
-        // Google Sheets 公開 CSV 網址
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTlc6krf4Q-2h1GR4GYCdAnwTnzWHdufUKjiqM_lmJKNVgqrB0UTpUYso1ZZM8pnwCy_asx_chotMPW/pub?gid=0&single=true&output=csv';
-        
-        // 快取資料以避免頻繁請求
-        let cachedData = null;
-        let lastFetchTime = 0;
-        const CACHE_DURATION = 5 * 60 * 1000; // 5分鐘快取
-
-        async function fetchSheetData() {
-            // 如果快取仍在有效期內，直接使用快取資料
-            if (cachedData && Date.now() - lastFetchTime < CACHE_DURATION) {
-                return cachedData;
-            }
-
-            try {
-                // 添加時間戳避免瀏覽器快取
-                const timestamp = Date.now();
-                const response = await fetch(`${SHEET_URL}&t=${timestamp}`);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const csvData = await response.text();
-                const parsedData = parseCSV(csvData);
-                
-                // 更新快取
-                cachedData = parsedData;
-                lastFetchTime = Date.now();
-                
-                return parsedData;
-            } catch (error) {
-                console.error('獲取資料失敗:', error);
-                throw error;
-            }
-        }
-
-        function parseCSV(csv) {
-            const lines = csv.split('\n');
-            const result = [];
-            
-            if (lines.length === 0) return result;
-            
-            const headers = lines[0].split(',').map(header => header.trim());
-            
-            for (let i = 1; i < lines.length; i++) {
-                if (!lines[i].trim()) continue;
-                
-                const currentLine = lines[i].split(',');
-                const obj = {};
-                
-                for (let j = 0; j < headers.length; j++) {
-                    obj[headers[j]] = currentLine[j] ? currentLine[j].trim() : '';
-                }
-                
-                result.push(obj);
-            }
-            
-            return result;
-        }
-
-        function renderData(data) {
-            const container = document.getElementById('data-container');
-            
-            if (!data || data.length === 0) {
-                container.innerHTML = '<p class="error">沒有可顯示的資料</p>';
-                return;
-            }
-            
-            let html = '<table><thead><tr>';
-            
-            // 渲染表頭
-            Object.keys(data[0]).forEach(key => {
-                html += `<th>${key}</th>`;
-            });
-            html += '</tr></thead><tbody>';
-            
-            // 渲染資料行
-            data.forEach(row => {
-                html += '<tr>';
-                Object.values(row).forEach(value => {
-                    html += `<td>${value || ''}</td>`;
-                });
-                html += '</tr>';
-            });
-            
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        }
-
-        async function loadData() {
-            const container = document.getElementById('data-container');
-            
-            try {
-                const data = await fetchSheetData();
-                renderData(data);
-            } catch (error) {
-                console.error('載入資料失敗:', error);
-                container.innerHTML = '<p class="error">無法載入資料，請稍後再試</p>';
-            }
-        }
-
-        // 頁面載入時獲取資料
-        document.addEventListener('DOMContentLoaded', loadData);
-        
-        // 可選：每5分鐘自動刷新資料
-        setInterval(loadData, CACHE_DURATION);
-    </script>
 </body>
 </html>
